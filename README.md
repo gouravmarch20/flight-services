@@ -45,7 +45,8 @@ Lets take a look inside the `src` folder
  - To run the server execute
  ```
  npm run dev
-
+//// src cmd
 npx sequelize db:create
  npx sequelize model:generate --name Airplane --attributes modelNumber:string,capicity:integer
+ npx sequelize  db:migrate  
  ```
