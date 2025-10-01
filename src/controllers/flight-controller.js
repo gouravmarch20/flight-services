@@ -19,29 +19,23 @@ const { SuccessResponse, ErrorResponse } = require('../utils/common');
  */
 async function createFlight(req, res) {
     try {
-        console.log("debug_createFlight", req.body)
-        // const flight = await FlightService.createFlight({
-        //     flightNumber: req.body.flightNumber,
-        //     airplaneId: req.body.airplaneId,
-        //     departureAirportId: Number(req.body.departureAirportId),
-        //     arrivalAirportId: Number(req.body.arrivalAirportId),
-        //     arrivalTime: req.body.arrivalTime,
-        //     departureTime: req.body.departureTime,
-        //     price: req.body.price,
-        //     boardingGate: req.body.boardingGate,
-        //     totalSeats: req.body.totalSeats
-        // });
-        const flight = await FlightService.createFlight({
-            flightNumber: req.body.flightNumber.trim(), // remove trailing space
-            airplaneId: Number(req.body.airplaneId),
-            departureAirportId: Number(req.body.departureAirportId),
-            arrivalAirportId: Number(req.body.arrivalAirportId),
-            arrivalTime: new Date(req.body.arrivalTime.trim()),   // trim + Date()
-            departureTime: new Date(req.body.departureTime.trim()), // Date()
-            price: Number(req.body.price),
-            boardingGate: req.body.boardingGate.trim(),
-            totalSeats: Number(req.body.totalSeats),
-        });
+
+        //   const flight = _createFlight" , req.body)
+
+        const flightData = {
+            flightNumber: req.body.flightNumber ? req.body.flightNumber.trim() : null,
+            airplaneId: parseInt(req.body.airplaneId),
+            departureAirportId: req.body.departureAirportId ? req.body.departureAirportId.trim() : null,
+            arrivalAirportId: req.body.arrivalAirportId ? req.body.arrivalAirportId.trim() : null,
+            arrivalTime: new Date(req.body.arrivalTime.trim()),   // trim spaces
+            departureTime: new Date(req.body.departureTime.trim()),
+            price: parseInt(req.body.price),
+            boardingGate: req.body.boardingGate ? req.body.boardingGate.trim() : null,
+            totalSeats: parseInt(req.body.totalSeats)
+        };
+        const flight = await FlightService.createFlight(flightData);
+        console.log("debug_createFlight", flightData)
+
         SuccessResponse.data = flight;
         return res
             .status(StatusCodes.CREATED)
